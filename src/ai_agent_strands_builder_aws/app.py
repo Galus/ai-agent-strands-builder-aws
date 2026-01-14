@@ -1,11 +1,11 @@
-
-from ai_agent_strands_builder_aws.core.agent import scrape
+from ai_agent_strands_builder_aws.core.agent import price_analysis
 
 def main():
     print("Hello from ai-agent-strands-builder-aws!")
 
-    print("Trying to scrape!")
-    scrape()
+    symbol="Amazon"
+    print(f"Trying to analyze historic stock data for {symbol}!")
+    price_analysis(symbol)
 
     print("Done running.")
 
