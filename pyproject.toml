@@ -1,0 +1,7 @@
+[project]
+name = "ai-agent-strands-builder-aws"
+version = "0.1.0"
+description = "Following https://builder.aws.com/content/2xzuBghpt5Qg3CJ23OB0LGyEzP4/building-intelligent-ai-agents-with-aws-strands-a-hands-on-guide"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = []
