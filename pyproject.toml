@@ -4,7 +4,15 @@ version = "0.1.0"
 description = "Following https://builder.aws.com/content/2xzuBghpt5Qg3CJ23OB0LGyEzP4/building-intelligent-ai-agents-with-aws-strands-a-hands-on-guide"
 readme = "README.md"
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "beautifulsoup4>=4.14.3",
+    "matplotlib>=3.10.8",
+    "pandas>=2.3.3",
+    "requests>=2.32.5",
+    "strands-agents>=1.22.0",
+    "strands-agents-tools>=0.2.19",
+    "yfinance>=1.0",
+]
 
 [project.scripts]
 start = "ai_agent_strands_builder_aws.app:main"
