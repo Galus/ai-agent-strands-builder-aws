@@ -1,6 +1,7 @@
 # uv
 .venv/
 .python-version
+repl_state/
 
 # Python
 __pycache__/
