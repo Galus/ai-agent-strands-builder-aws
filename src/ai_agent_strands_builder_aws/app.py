@@ -1,10 +1,13 @@
 
-from ai_agent_strands_builder_aws.core.agent import run
+from ai_agent_strands_builder_aws.core.agent import scrape
 
 def main():
     print("Hello from ai-agent-strands-builder-aws!")
 
-    run()
+    print("Trying to scrape!")
+    scrape()
+
+    print("Done running.")
 
 
 if __name__ == "__main__":
