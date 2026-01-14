@@ -5,3 +5,10 @@ description = "Following https://builder.aws.com/content/2xzuBghpt5Qg3CJ23OB0LGy
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = []
+
+[project.scripts]
+start = "ai_agent_strands_builder_aws.app:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
