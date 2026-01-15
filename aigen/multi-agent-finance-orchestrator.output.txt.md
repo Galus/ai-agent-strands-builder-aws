@@ -6,7 +6,7 @@ Code:
 
 ```python
 
-https://github.com/Galus/ai-agent-strands-builder-aws/blob/main/aigen/multi-agent-finance-orchestrator.output.txt.md def multi_agent_finance_orchestrator():
+def multi_agent_finance_orchestrator():
      MAIN_SYSTEM_PROMPT = """
      You are an assistant that routes queries to specialized agents:
      - For research questions and factual information, Use the research_assistant tool
