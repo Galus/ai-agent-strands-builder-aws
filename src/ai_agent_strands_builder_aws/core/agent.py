@@ -1,8 +1,46 @@
 from strands import Agent, tool
 from strands_tools import python_repl, file_write, use_aws, http_request
+from ai_agent_strands_builder_aws.core.tools import (
+    investment_research_assistant,
+    budget_optimizer_assistant,
+    financial_planner_assistant,
+)
 import os
 
 os.environ["BYPASS_TOOL_CONSENT"] = "true"
+
+
+# Galus Note: looks like someone wrote a bad builder.aws.com article.
+#             Or maybe they are about to show tool hallucinations or guardrails.
+def multi_agent_finance_orchestrator():
+    MAIN_SYSTEM_PROMPT = """
+    You are an assistant that routes queries to specialized agents:
+    - For research questions and factual information, Use the research_assistant tool
+    - For product recommendations and shopping advice, Use the product_recommendation_assistant tool
+    - For travel planning and itineraries, Use the trip_planning_assistant tool
+    - For simple questions not requiring specialized knowledge, Answer directly
+    Always select the most appropriate tool based on the user's query.
+    """
+    orchestrator = Agent(
+        system_prompt=MAIN_SYSTEM_PROMPT,
+        tools=[
+            investment_research_assistant,
+            budget_optimizer_assistant,
+            financial_planner_assistant,
+        ],
+    )
+
+    resp = orchestrator(
+        """
+        I'm 30 years old, earning around $6,000 per month.
+        I have some student loans and moderate savings.
+        I want to understand how I can better manage my monthly budget,
+        explore investment options, and build a solid long-term financial plan
+        for buying a house and retiring early. Can you help?
+        """
+    )
+    print(resp)
+
 
 def dataframe_manipulation():
     prompt = """
@@ -18,10 +56,11 @@ def dataframe_manipulation():
     - List any external libraries that need to be installed with 'uv add' if any.
     - Include brief documentations describing how the code works and how to run it.
     """
-    model="us.anthropic.claude-3-5-sonnet-20241022-v2:0"
+    model = "us.anthropic.claude-3-5-sonnet-20241022-v2:0"
     agent = Agent(model=model)
     resp = agent(prompt)
     print(resp)
+
 
 def weather(citydatetime: str):
     system_prompt = """
@@ -41,14 +80,13 @@ def weather(citydatetime: str):
     This returns JSON with weather details.
     """
 
-    model="us.anthropic.claude-3-5-sonnet-20241022-v2:0"
+    model = "us.anthropic.claude-3-5-sonnet-20241022-v2:0"
     agent = Agent(
-        tools=[use_aws, http_request],
-        system_prompt=system_prompt,
-        model=model
+        tools=[use_aws, http_request], system_prompt=system_prompt, model=model
     )
     resp = agent(f"Get the weather details for {citydatetime} and save to DynamoDB")
     print(resp)
+
 
 def price_analysis(symbol: str):
     system_prompt = """
@@ -60,14 +98,13 @@ def price_analysis(symbol: str):
     Use `yfinance` module to retrive the historical data.
     Save the plots as image files {symbol}_{date}_{plot_name}.jpg
     """
-    model="us.anthropic.claude-3-5-sonnet-20241022-v2:0"
+    model = "us.anthropic.claude-3-5-sonnet-20241022-v2:0"
     agent = Agent(
-        tools=[python_repl, file_write],
-        system_prompt=system_prompt,
-        model=model
+        tools=[python_repl, file_write], system_prompt=system_prompt, model=model
     )
     resp = agent(symbol)
     print(resp)
+
 
 def scrape():
     agent = Agent(tools=[python_repl, file_write])
@@ -80,8 +117,8 @@ def scrape():
     resp = agent(prompt)
     print(resp)
 
+
 def test():
     agent = Agent()
     resp = agent("Explain Amazon Bedrock Agents")
     print(resp)
-
