@@ -4,34 +4,37 @@ We pass in 3 tools, not mentioned by the system prompt:
 
 Code:
 
-> def multi_agent_finance_orchestrator():
->     MAIN_SYSTEM_PROMPT = """
->     You are an assistant that routes queries to specialized agents:
->     - For research questions and factual information, Use the research_assistant tool
->     - For product recommendations and shopping advice, Use the product_recommendation_assistant tool
->     - For travel planning and itineraries, Use the trip_planning_assistant tool
->     - For simple questions not requiring specialized knowledge, Answer directly
->     Always select the most appropriate tool based on the user's query.
->     """
->     orchestrator = Agent(
->         system_prompt=MAIN_SYSTEM_PROMPT,
->         tools=[
->             investment_research_assistant,
->             budget_optimizer_assistant,
->             financial_planner_assistant,
->         ],
->     )
-> 
->     resp = orchestrator(
->         """
->         I'm 30 years old, earning around $6,000 per month.
->         I have some student loans and moderate savings.
->         I want to understand how I can better manage my monthly budget,
->         explore investment options, and build a solid long-term financial plan
->         for buying a house and retiring early. Can you help?
->         """
->     )
->     print(resp)
+```python
+
+https://github.com/Galus/ai-agent-strands-builder-aws/blob/main/aigen/multi-agent-finance-orchestrator.output.txt.md def multi_agent_finance_orchestrator():
+     MAIN_SYSTEM_PROMPT = """
+     You are an assistant that routes queries to specialized agents:
+     - For research questions and factual information, Use the research_assistant tool
+     - For product recommendations and shopping advice, Use the product_recommendation_assistant tool
+     - For travel planning and itineraries, Use the trip_planning_assistant tool
+     - For simple questions not requiring specialized knowledge, Answer directly
+     Always select the most appropriate tool based on the user's query.
+     """
+     orchestrator = Agent(
+         system_prompt=MAIN_SYSTEM_PROMPT,
+         tools=[
+             investment_research_assistant,
+             budget_optimizer_assistant,
+             financial_planner_assistant,
+         ],
+     )
+ 
+     resp = orchestrator(
+         """
+         I'm 30 years old, earning around $6,000 per month.
+         I have some student loans and moderate savings.
+         I want to understand how I can better manage my monthly budget,
+         explore investment options, and build a solid long-term financial plan
+         for buying a house and retiring early. Can you help?
+         """
+     )
+     print(resp
+```
 
 System Prompt expects:
 
