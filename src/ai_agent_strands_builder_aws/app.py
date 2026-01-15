@@ -1,11 +1,11 @@
-from ai_agent_strands_builder_aws.core.agent import price_analysis
+from ai_agent_strands_builder_aws.core.agent import weather
 
 def main():
     print("Hello from ai-agent-strands-builder-aws!")
 
-    symbol="Amazon"
-    print(f"Trying to analyze historic stock data for {symbol}!")
-    price_analysis(symbol)
+    citydatetime="New York at 2026/01/01 12:00PM"
+    print(f"Getting weather for {citydatetime}.")
+    weather(citydatetime)
 
     print("Done running.")
 
