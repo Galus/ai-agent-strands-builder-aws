@@ -1,11 +1,11 @@
-from ai_agent_strands_builder_aws.core.agent import galus_test_custom_tool
+from ai_agent_strands_builder_aws.core.agent import mcp_agent
 
 
 def main():
     print("Hello from ai-agent-strands-builder-aws!")
 
-    print(f"Testing if tools actually work.")
-    galus_test_custom_tool("What is the boiling point of Sodium NA?")
+    print(f"Testing agent that uses MCPClient.")
+    mcp_agent()
 
     print("Done running.")
 

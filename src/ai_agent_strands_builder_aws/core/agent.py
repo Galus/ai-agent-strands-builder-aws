@@ -6,9 +6,95 @@ from ai_agent_strands_builder_aws.core.tools import (
     financial_planner_assistant,
     galus_custom_riddle_tool,
 )
+from ai_agent_strands_builder_aws.core.clients import aws_diag_client
 import os
+from IPython.display import Image, display
+
 
 os.environ["BYPASS_TOOL_CONSENT"] = "true"
+
+diagram_dir = "./aigen/diagrams"
+os.makedirs(diagram_dir, exist_ok=True)
+
+
+def mcp_agent():
+    SYSTEM_PROMPT = """
+    You are an expert AWS Certified Solutions Architect. Your role is to help customers understand best practices on building on AWS.
+    You can query the AWS Documentation and generate diagrams. When you generate a diagram,
+    you MUST tell the customer the full file path of the diagram in the format "The diagram is saved at: <filepath>".
+    """
+    with aws_diag_client:
+        all_tools = aws_diag_client.list_tools_sync()
+        agent = Agent(tools=all_tools, system_prompt=SYSTEM_PROMPT)
+        query = "Create a diagram of a website that uses AWS Lambda for a static website hosted on S3"
+        print(f"Sending query to agent: {query}")
+
+        agent_result = agent(query)
+
+        # Extract textual content from agent_result
+        final_agent_response_text = ""
+        if hasattr(agent_result, "response") and isinstance(agent_result.response, str):
+            final_agent_response_text = agent_result.response
+        elif hasattr(agent_result, "content") and isinstance(agent_result.content, str):
+            final_agent_response_text = agent_result.content
+        elif hasattr(agent_result, "output") and isinstance(agent_result.output, str):
+            final_agent_response_text = agent_result.output
+        elif isinstance(agent_result, str):
+            final_agent_response_text = agent_result
+        else:
+            try:
+                final_agent_response_text = str(agent_result)
+                print("DEBUG: Converted agent_result to string.")
+            except Exception as e:
+                print(f"ERROR: Could not extract text from AgentResult. Error: {e}")
+                print(
+                    "Please inspect the 'agent_result' object to determine the correct attribute."
+                )
+
+        # Print agent response
+        print("\n--- Agent's Full Response Text ---")
+        print(final_agent_response_text)
+        print("--- End of Agent's Full Response Text ---\n")
+
+        # Try to extract diagram path from response
+        diagram_path = None
+        if final_agent_response_text:
+            path_marker = "The diagram is saved at: "
+            if path_marker in final_agent_response_text:
+                start_index = final_agent_response_text.find(path_marker) + len(
+                    path_marker
+                )
+                end_index = final_agent_response_text.find("\n", start_index)
+                end_index = (
+                    end_index if end_index != -1 else len(final_agent_response_text)
+                )
+
+                diagram_path_raw = final_agent_response_text[
+                    start_index:end_index
+                ].strip()
+                diagram_path = diagram_path_raw.strip("`'\"")
+
+                print(f"\nExtracted diagram path: '{diagram_path}'")
+
+                if diagram_path and os.path.exists(diagram_path):
+                    print(f"Displaying diagram from: {diagram_path}")
+                    display(Image(filename=diagram_path))
+                elif diagram_path:
+                    print(f"Diagram file not found at: {diagram_path}")
+                    print(f"Current working directory: {os.getcwd()}")
+                    expected_dir = os.path.dirname(diagram_path)
+                    if os.path.exists(expected_dir):
+                        print(
+                            f"Directory '{expected_dir}' exists with files: {os.listdir(expected_dir)}"
+                        )
+                    else:
+                        print(f"Directory '{expected_dir}' does NOT exist.")
+            else:
+                print(
+                    "Agent response did not include a diagram path in the expected format."
+                )
+        else:
+            print("No textual response extracted from the agent's result.")
 
 
 def galus_test_custom_tool(query):
