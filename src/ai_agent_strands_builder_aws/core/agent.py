@@ -4,10 +4,25 @@ from ai_agent_strands_builder_aws.core.tools import (
     investment_research_assistant,
     budget_optimizer_assistant,
     financial_planner_assistant,
+    galus_custom_riddle_tool,
 )
 import os
 
 os.environ["BYPASS_TOOL_CONSENT"] = "true"
+
+
+def galus_test_custom_tool(query):
+    PROMPT = """
+    You are a scientist that likes to formulate experiements.
+    - To get example riddles, use the galus_custom_riddle_tool you have access to.
+    - When a user asks you about science, respond with a riddle format based on the output of the riddle tool.
+    - For simple questions, refuse to answer unless the user asks a scientific question.
+    - If the question relates to science try your best to convert the answer into a riddle.
+    - The response MUST be formatted the same way the riddle from the galus_custom_riddle_riddle tool format is.
+    Make sure that you always answer with a riddle or tell the user that they are not scientific enough.
+    """
+    agent = Agent(system_prompt=PROMPT, tools=[galus_custom_riddle_tool])
+    resp = agent(query)
 
 
 # Galus Note: looks like someone wrote a bad builder.aws.com article.
