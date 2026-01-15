@@ -4,6 +4,25 @@ import os
 
 os.environ["BYPASS_TOOL_CONSENT"] = "true"
 
+def dataframe_manipulation():
+    prompt = """
+    Write a Python script using the pandas library that performs the following tasks:
+    - Create a sample DataFrame with the columns: 'Name', 'Age', and 'Salary'.
+    - Add a new column named 'Bonus' that is 10% of the corresponding 'Salary' value.
+    - Filter the DataFrame to include only rows where the 'Age' is greater than 30.
+    - Group the data by age brackets (e.g. 20s, 30s, 40s) and calculate the average Salary and Bonus for each group.
+    Execute the python script and show the output.
+    Requirements:
+    - Include clear inline comments to explain the logic.
+    - Add a docstring for the function.
+    - List any external libraries that need to be installed with 'uv add' if any.
+    - Include brief documentations describing how the code works and how to run it.
+    """
+    model="us.anthropic.claude-3-5-sonnet-20241022-v2:0"
+    agent = Agent(model=model)
+    resp = agent(prompt)
+    print(resp)
+
 def weather(citydatetime: str):
     system_prompt = """
     You are a weather data agent. Your job is to fetch weather details for a given city and date/time by searching publicly available weather information on the web.

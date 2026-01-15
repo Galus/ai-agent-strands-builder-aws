@@ -1,0 +1,17 @@
+Filtered Employee Data (Age > 30):
+============================================================
+    Name  Age  Salary   Bonus Age_Bracket
+1  Alice   32   65000  6500.0         30s
+2    Bob   45   85000  8500.0         40s
+4  David   35   70000  7000.0         30s
+5    Eve   41   75000  7500.0         40s
+6  Frank   52   95000  9500.0         50s
+7  Grace   38   72000  7200.0         30s
+
+Average Salary and Bonus by Age Bracket:
+============================================================
+              Salary   Bonus
+Age_Bracket                 
+30s          69000.0  6900.0
+40s          80000.0  8000.0
+50s          95000.0  9500.0
